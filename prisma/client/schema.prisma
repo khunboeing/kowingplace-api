@@ -9,6 +9,7 @@ generator client {
   binaryTargets = ["native", "darwin-arm64", "debian-openssl-1.1.x", "rhel-openssl-1.0.x"]
   output        = "../prisma/client"
 }
+
 model UserExternal {
   id       Int        @id @default(autoincrement())
   name     String
@@ -31,7 +32,6 @@ model CoWork {
   FacilityToCoWork FacilityToCoWork[]
   userInternal     UserInternal?      @relation(fields: [userInternalId], references: [id])
   userInternalId   Int?               @unique //make one to one
-  bookRoom         BookRoom[]
   Close            Close?
   Open             Open?
   OpenClose24Hours OpenClose24Hours?
@@ -57,6 +57,7 @@ model Room {
   updateAt     DateTime      @updatedAt
   BranchToRoom BranchToRoom?
   RoomRate     RoomRate[]
+  BookRoom     BookRoom[]
 }
 
 model RoomRate {
@@ -73,12 +74,11 @@ model RoomRate {
 }
 
 model durationCategory {
-  id          Int        @id @default(autoincrement())
-  duration    Int        @unique
-  createAt    DateTime   @default(now())
-  updateAt    DateTime   @updatedAt
-  RoomRate    RoomRate[]
-  openCloseId Int?
+  id       Int        @id @default(autoincrement())
+  duration Int        @unique
+  createAt DateTime   @default(now())
+  updateAt DateTime   @updatedAt
+  RoomRate RoomRate[]
 }
 
 model Facility {
@@ -100,22 +100,21 @@ model FacilityToCoWork {
 }
 
 model BranchToRoom {
-  id       Int        @id @default(autoincrement())
-  coWork   CoWork     @relation(fields: [coWorkId], references: [id], onDelete: Cascade)
+  id       Int      @id @default(autoincrement())
+  coWork   CoWork   @relation(fields: [coWorkId], references: [id], onDelete: Cascade)
   coWorkId Int
-  room     Room       @relation(fields: [roomId], references: [id])
-  roomId   Int        @unique
-  createAt DateTime   @default(now())
-  updateAt DateTime   @updatedAt
-  BookRoom BookRoom[]
-  active   Boolean?   @default(true)
+  room     Room     @relation(fields: [roomId], references: [id])
+  roomId   Int      @unique
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  active   Boolean? @default(true)
 }
 
 model BookRoom {
   id                   Int                @id @default(autoincrement())
-  cowork               CoWork             @relation(fields: [coWorkId], references: [id], onDelete: Cascade)
-  coWorkId             Int
   startTime            DateTime
+  room                 Room?              @relation(fields: [roomId], references: [id])
+  roomId               Int?
   roomRate             RoomRate           @relation(fields: [roomRateId], references: [id])
   roomRateId           Int
   status               String
@@ -125,8 +124,6 @@ model BookRoom {
   userExternalId       Int
   vertifyCode          VertifyBookingCode @relation(fields: [vertifyBookingCodeId], references: [id])
   vertifyBookingCodeId Int
-  branchToRoom         BranchToRoom?      @relation(fields: [branchToRoomId], references: [id])
-  branchToRoomId       Int?
   price                Int?               @default(0)
 }
 

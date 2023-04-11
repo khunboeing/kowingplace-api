@@ -5,31 +5,24 @@ import {
   createUserInternalHandler,
   getCoWorkUserChooseHandler,
   getCoworkByUserIdHandler,
-  getRoomByCoWorkIdHandler,
   updateCoWorkDetailHandler,
   updateRoomInternalHandler,
-  getVerifyCodeByUserConfirmBookingHandler,
-  showBookDetailInternalByCoWorkHandler,
-  getStatusUserBookInternalHandler,
+  createBookRoomHandler,
   createFacilityHandler,
   getCoworksHandler,
   createTimeOpenCloseHandler,
-  getCalendarBookingByCoWorkIdHandler,
   loginUserExternalHandler,
-  updateCalendarBookingByCoWorkIdHandler,
-  getCoWorkOpen24HoursHandler,
   forgetPasswordUserExternalHandler,
   forgetPasswordUserInternalHandler,
   getFacilitiesHandler,
-  deleteCoWorkHandler,
-  bookDurationRoomHandler,
   loginUserInternalHandler,
-  getOpenDayHandler,
-  getBookRoomByPartnerIdHandler,
-  showtheRoomBookedbyUserExternalHandler,
   updateStatusHandler,
   getBookRoomByPartnerIdAndStatusHandler,
   deleteRoomHandler,
+  getBookRoomOnTheDateHandler,
+  getCoWorkByCoWorkIdHandler,
+  getBookRoomByUserExternalHandler,
+  getBookRoomByPartnerIdHandler,
 } from "./kowingPlace/kowingPlace.handler";
 import { checkToken } from "./kowingPlace/kowingPlace.middleWare";
 
@@ -45,166 +38,162 @@ export const AppRoutes: IAppRoutes[] = [
     method: "get",
     action: (req: any, res: any) => res.send("hello 7470"),
   },
+  // MANUAL BY POSTMAN
+  //facilities
   {
-    path: "/kowing/createUserExternal",
+    path: "/kowing/createFacility",
     method: "post",
-    action: createUserExternalHandler,
+    action: createFacilityHandler,
   },
-
+  // HOME
+  //get initial home
+  {
+    path: "/kowing/getCoworks",
+    method: "post",
+    action: getCoworksHandler,
+  },
+  // COWORK DETAIL
+  //click from home
   {
     path: "/kowing/getCoWorkUserChoose",
     method: "post",
     action: getCoWorkUserChooseHandler,
   },
+  //detail in page cowork detail
   {
-    path: "/kowing/getVerifyCodeByUserConfirmBooking",
+    path: "/kowing/getFacilities",
     method: "post",
-    action: getVerifyCodeByUserConfirmBookingHandler,
+    action: getFacilitiesHandler,
+  },
+  // EXTERNAL RESERVE
+  //initial page // get cowork detail, open close days
+  {
+    path: "/kowing/getCoWorkByCoWorkId",
+    method: "post",
+    action: getCoWorkByCoWorkIdHandler,
+  },
+  //after select date and room // get time available
+  {
+    path: "/kowing/getBookRoomOnTheDate",
+    method: "post",
+    action: getBookRoomOnTheDateHandler,
+  },
+  //vertify code //bookingExternal
+  {
+    path: "/kowing/createBookRoom",
+    method: "post",
+    action: createBookRoomHandler,
     middleWare: checkToken,
   },
+  // EXTERNAL RESERVATION
+  //get bookroom
   {
-    path: "/kowing/createUserInternal",
+    path: "/kowing/getBookRoomByUserExternal",
     method: "post",
-    action: createUserInternalHandler,
+    action: getBookRoomByUserExternalHandler,
   },
+  // INTERNAL MAIN
   {
-    path: "/kowing/createRoomInternal",
+    path: "/kowing/getBookRoomByPartnerId",
     method: "post",
-    action: createRoomInternalHandler,
+    action: getBookRoomByPartnerIdHandler,
   },
+  // INTERNAL STATUS
+  {
+    path: "/kowing/getReserveByStat",
+    method: "post",
+    action: getBookRoomByPartnerIdAndStatusHandler,
+  },
+  //btn update
+  {
+    path: "/kowing/updateStatus",
+    method: "post",
+    action: updateStatusHandler,
+  },
+  //not delete but update active room to false
+  {
+    path: "/kowing/deleteRoom",
+    method: "post",
+    action: deleteRoomHandler,
+  },
+  // INTERNAL SETTING COWORK
+  //initial get old detail
+  {
+    path: "/kowing/getCoworkByUserId",
+    method: "post",
+    action: getCoworkByUserIdHandler,
+  },
+  //create cowork detail
   {
     path: "/kowing/createCoWorkDetail",
     method: "post",
     action: createCoWorkDetailHandler,
     middleWare: checkToken,
   },
+  //update cowork detail
   {
     path: "/kowing/updateCoWorkDetail",
     method: "post",
     action: updateCoWorkDetailHandler,
     middleWare: checkToken,
   },
-  {
-    path: "/kowing/updateRoomInternal",
-    method: "post",
-    action: updateRoomInternalHandler,
-    middleWare: checkToken,
-  },
-  {
-    path: "/kowing/getRoomByCoWorkId",
-    method: "post",
-    action: getRoomByCoWorkIdHandler,
-  },
-  {
-    path: "/kowing/getCoworkByUserId",
-    method: "post",
-    action: getCoworkByUserIdHandler,
-  },
-  {
-    path: "/kowing/showBookDetailInternalByCoWork",
-    method: "post",
-    action: showBookDetailInternalByCoWorkHandler,
-  },
-  {
-    path: "/kowing/createFacility",
-    method: "post",
-    action: createFacilityHandler,
-  },
-  {
-    path: "/kowing/getFacilities",
-    method: "post",
-    action: getFacilitiesHandler,
-  },
-  {
-    path: "/kowing/getStatusUserBookInternal",
-    method: "post",
-    action: getStatusUserBookInternalHandler,
-  },
-  {
-    path: "/kowing/getCoworks",
-    method: "post",
-    action: getCoworksHandler,
-  },
+  // INTERNAL SETTING TIME
+  //create and update === upsert
   {
     path: "/kowing/createTimeOpenClose",
     method: "post",
     action: createTimeOpenCloseHandler,
     middleWare: checkToken,
   },
+  // INTERNAL SETTING ROOM
+  //create room
   {
-    path: "/kowing/getCalendarBookingByCoWorkId",
+    path: "/kowing/createRoomInternal",
     method: "post",
-    action: getCalendarBookingByCoWorkIdHandler,
+    action: createRoomInternalHandler,
   },
+  //update room
+  {
+    path: "/kowing/updateRoomInternal",
+    method: "post",
+    action: updateRoomInternalHandler,
+    middleWare: checkToken,
+  },
+  // REGISTRATION LOGIN FORGET IN/EXT
+  //external signup
+  {
+    path: "/kowing/createUserExternal",
+    method: "post",
+    action: createUserExternalHandler,
+  },
+  //external login
   {
     path: "/kowing/loginUserExternal",
     method: "post",
     action: loginUserExternalHandler,
   },
-  {
-    path: "/kowing/updateCalendarBookingByCoWorkId",
-    method: "post",
-    action: updateCalendarBookingByCoWorkIdHandler,
-    middleWare: checkToken,
-  },
-  {
-    path: "/kowing/getCoWorkOpen24Hours",
-    method: "post",
-    action: getCoWorkOpen24HoursHandler,
-  },
+  //external forget new data
   {
     path: "/kowing/forgetPasswordUserExternal",
     method: "post",
     action: forgetPasswordUserExternalHandler,
   },
+  //internal signup
   {
-    path: "/kowing/forgetPasswordUserInternal",
+    path: "/kowing/createUserInternal",
     method: "post",
-    action: forgetPasswordUserInternalHandler,
+    action: createUserInternalHandler,
   },
-  {
-    path: "/kowing/deleteCoWork",
-    method: "post",
-    action: deleteCoWorkHandler,
-  },
-  {
-    path: "/kowing/bookDurationRoom",
-    method: "post",
-    action: bookDurationRoomHandler,
-  },
+  //internal login
   {
     path: "/kowing/loginUserInternal",
     method: "post",
     action: loginUserInternalHandler,
   },
+  //internal forget new data
   {
-    path: "/kowing/getOpenDay",
+    path: "/kowing/forgetPasswordUserInternal",
     method: "post",
-    action: getOpenDayHandler,
-  },
-  {
-    path: "/kowing/getBookRoomByPartnerId",
-    method: "post",
-    action: getBookRoomByPartnerIdHandler,
-  },
-  {
-    path: "/kowing/showtheRoomBookedbyUserExternal",
-    method: "post",
-    action: showtheRoomBookedbyUserExternalHandler,
-  },
-  {
-    path: "/kowing/updateStatus",
-    method: "post",
-    action: updateStatusHandler,
-  },
-  {
-    path: "/kowing/getReserveByStat",
-    method: "post",
-    action: getBookRoomByPartnerIdAndStatusHandler,
-  },
-  {
-    path: "/kowing/deleteRoom",
-    method: "post",
-    action: deleteRoomHandler,
+    action: forgetPasswordUserInternalHandler,
   },
 ];

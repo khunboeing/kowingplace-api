@@ -20,7 +20,6 @@ model CoWork {
   FacilityToCoWork FacilityToCoWork[]
   userInternal     UserInternal?      @relation(fields: [userInternalId], references: [id])
   userInternalId   Int?               @unique //make one to one
-  bookRoom         BookRoom[]
   Close            Close?
   Open             Open?
   OpenClose24Hours OpenClose24Hours?
@@ -46,6 +45,7 @@ model Room {
   updateAt     DateTime      @updatedAt
   BranchToRoom BranchToRoom?
   RoomRate     RoomRate[]
+  BookRoom     BookRoom[]
 }
 
 model RoomRate {
@@ -67,7 +67,6 @@ model durationCategory {
   createAt    DateTime   @default(now())
   updateAt    DateTime   @updatedAt
   RoomRate    RoomRate[]
-  openCloseId Int?
 }
 
 model Facility {
@@ -96,15 +95,14 @@ model BranchToRoom {
   roomId   Int        @unique
   createAt DateTime   @default(now())
   updateAt DateTime   @updatedAt
-  BookRoom BookRoom[]
   active   Boolean?   @default(true)
 }
 
 model BookRoom {
   id                   Int                @id @default(autoincrement())
-  cowork               CoWork             @relation(fields: [coWorkId], references: [id], onDelete: Cascade)
-  coWorkId             Int
   startTime            DateTime
+  room                 Room?              @relation(fields: [roomId], references: [id])
+  roomId               Int?
   roomRate             RoomRate           @relation(fields: [roomRateId], references: [id])
   roomRateId           Int
   status               String
@@ -114,8 +112,6 @@ model BookRoom {
   userExternalId       Int
   vertifyCode          VertifyBookingCode @relation(fields: [vertifyBookingCodeId], references: [id])
   vertifyBookingCodeId Int
-  branchToRoom         BranchToRoom?      @relation(fields: [branchToRoomId], references: [id])
-  branchToRoomId       Int?
   price                Int?               @default(0)
 }
 

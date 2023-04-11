@@ -21,7 +21,6 @@ export interface IGetCoWorkUserChoose
 export const getVerifyCodeByUserConfirmBookingCodec = t.type({
   startTime: t.string,
   roomId: t.number,
-  coWorkId: t.number,
   roomRateId: t.number,
   userExId: t.number,
   price: t.number,
@@ -139,11 +138,11 @@ export interface ICreateFacility extends t.TypeOf<typeof createFacilityCodec> {}
 
 //-------------------------------------------------
 
-export const getRoomByCoWorkIdCodec = t.type({
+export const getCoWorkByCoWorkIdCodec = t.type({
   coWorkId: t.number,
 });
-export interface IGgetRoomByCoWorkIdCodec
-  extends t.TypeOf<typeof getRoomByCoWorkIdCodec> {}
+export interface IGetCoWorkByCoWorkId
+  extends t.TypeOf<typeof getCoWorkByCoWorkIdCodec> {}
 
 //-------------------------------------------------
 
@@ -273,11 +272,11 @@ export interface IBookDurationRoom
 
 //-------------------------------------------------
 
-export const showtheRoomBookedbyUserExternalCodec = t.type({
+export const getBookRoomByUserExternalCodec = t.type({
   userId: t.number,
 });
-export interface IShowtheRoomBookedbyUserExternal
-  extends t.TypeOf<typeof showtheRoomBookedbyUserExternalCodec> {}
+export interface IGetBookRoomByUserExternal
+  extends t.TypeOf<typeof getBookRoomByUserExternalCodec> {}
 
 //-------------------------------------------------
 

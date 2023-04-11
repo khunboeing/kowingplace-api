@@ -91,15 +91,14 @@ function makeEnum(x) { return x; }
 
 exports.Prisma.BookRoomScalarFieldEnum = makeEnum({
   id: 'id',
-  coWorkId: 'coWorkId',
   startTime: 'startTime',
+  roomId: 'roomId',
   roomRateId: 'roomRateId',
   status: 'status',
   createAt: 'createAt',
   updateAt: 'updateAt',
   userExternalId: 'userExternalId',
   vertifyBookingCodeId: 'vertifyBookingCodeId',
-  branchToRoomId: 'branchToRoomId',
   price: 'price'
 });
 
@@ -140,8 +139,7 @@ exports.Prisma.DurationCategoryScalarFieldEnum = makeEnum({
   id: 'id',
   duration: 'duration',
   createAt: 'createAt',
-  updateAt: 'updateAt',
-  openCloseId: 'openCloseId'
+  updateAt: 'updateAt'
 });
 
 exports.Prisma.FacilityScalarFieldEnum = makeEnum({
